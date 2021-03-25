@@ -5,9 +5,7 @@ public class SimpleMazeGenerator extends AMazeGenerator{
     }
 
     @Override
-    /**
-     *
-     */
+
     public Maze generate(int n, int m) {
         Maze maze = new Maze(n,m);
         for(int i=0;i<n;i++) {
@@ -73,7 +71,7 @@ public class SimpleMazeGenerator extends AMazeGenerator{
                 maze.setPlaceInMaze(curr, 0);
             }
             if(curr.getJ()>maze.getGoal().getJ()){
-                curr.setJ(curr.getJ()+1);
+                curr.setJ(curr.getJ()-1);
                 maze.setPlaceInMaze(curr, 0);
             }
         }

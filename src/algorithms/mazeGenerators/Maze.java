@@ -1,5 +1,7 @@
 package algorithms.mazeGenerators;
 
+import java.util.Arrays;
+
 public class Maze {
 
     private int[][] maze;
@@ -37,8 +39,8 @@ public class Maze {
     }
 
     public void setGoal(Position goal) {
-        this.goal.setI(start.getI());
-        this.goal.setJ(start.getJ());
+        this.goal.setI(goal.getI());
+        this.goal.setJ(goal.getJ());
     }
 
     public int getN() {
@@ -47,5 +49,27 @@ public class Maze {
 
     public int getM() {
         return m;
+    }
+
+    public void print(){
+        for (int i = 0; i <this.getN() ; i++) {
+            System.out.println(Arrays.toString(this.getMaze()[i]));
+        }
+        for(int i=0; i<this.getN(); i++){
+            for(int j=0;j<this.getM(); j++){
+                if(i==start.getI() && j==start.getJ()){
+                    System.out.println("S");
+                    continue;
+                }
+                if(i==goal.getI() && j==goal.getJ()){
+                    System.out.println("D");
+                    continue;
+                }
+                if(this.getMaze()[i][j] == 1)
+                    System.out.print("\u2b1b");
+                else
+                    System.out.print("\u2B1C");
+            }
+        }
     }
 }

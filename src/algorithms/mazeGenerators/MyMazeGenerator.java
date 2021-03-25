@@ -15,10 +15,14 @@ public class MyMazeGenerator extends AMazeGenerator{
             return Orientation.HORIZONTAL;
     }
     private void divide( Maze maze, int width, int height,int i, int j){
-        if (height<2 || width<2)
+        if(height<2 && width<2) {
+            if(height==1 && width==1){
+                Position pos=new Position(i,j);
+                maze.setPlaceInMaze(pos,1);
+            }
             return;
-        Boolean horizontal = (howToCut(width,height)==Orientation.HORIZONTAL);
-        if(howToCut(width,height)==Orientation.HORIZONTAL){
+        }
+        if(howToCut(height,width)==Orientation.HORIZONTAL){
             int row = (int)(Math.random()*height)+i;
             for(int k=j ;k<width+j;k++){
                 Position pos = new Position(row,k);
@@ -27,8 +31,8 @@ public class MyMazeGenerator extends AMazeGenerator{
             int gate = (int)(Math.random()*width)+j;
             Position pos = new Position(row,gate);
             maze.setPlaceInMaze(pos,0);
-            divide(maze,width,row-i-1,i,j);
-            divide(maze,width,height-row-1,row+2,j);
+            divide(maze,width,row-i,i,j);
+            divide(maze,width,height-row-1,row+1,j);
         }
         else{
             int col = (int)(Math.random()*width)+j;
@@ -39,8 +43,8 @@ public class MyMazeGenerator extends AMazeGenerator{
             int gate =(int)(Math.random()*height)+i;
             Position pos = new Position(gate,col);
             maze.setPlaceInMaze(pos,0);
-            divide(maze,col-j-1,height,i,j);
-            divide(maze,width-col-1,height,i,col+2);
+            divide(maze,col-j,height,i,j);
+            divide(maze,width-col-1,height,i,col+1);
         }
     }
 }
