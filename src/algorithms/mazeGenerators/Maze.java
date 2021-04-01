@@ -1,5 +1,6 @@
 package algorithms.mazeGenerators;
 
+import java.security.spec.RSAOtherPrimeInfo;
 import java.util.Arrays;
 
 public class Maze {
@@ -7,14 +8,11 @@ public class Maze {
     private int[][] maze;
     private Position start;
     private Position goal;
-    private int n, m;
 
-    public Maze(int n, int m) {
-        this.n=n;
-        this.m=m;
-        maze = new int[n][m];
-        this.start=new Position(0,0);
-        this.goal=new Position(n-1,m-1);
+    public Maze(Position start, Position goal, int[][] maze) {
+        this.maze=maze;
+        this.start=start;
+        this.goal=goal;
     }
 
     public int[][] getMaze() {
@@ -25,7 +23,7 @@ public class Maze {
         maze[pos.getI()][pos.getJ()]=num;
     }
 
-    public Position getStart() {
+    public Position getStartPosition() {
         return start;
     }
 
@@ -34,7 +32,7 @@ public class Maze {
         this.start.setJ(start.getJ());
     }
 
-    public Position getGoal() {
+    public Position getGoalPosition() {
         return goal;
     }
 
@@ -44,32 +42,27 @@ public class Maze {
     }
 
     public int getN() {
-        return n;
+        return this.maze.length;
     }
 
     public int getM() {
-        return m;
+        return this.maze[0].length;
     }
 
     public void print(){
-        for (int i = 0; i <this.getN() ; i++) {
-            System.out.println(Arrays.toString(this.getMaze()[i]));
-        }
         for(int i=0; i<this.getN(); i++){
-            for(int j=0;j<this.getM(); j++){
-                if(i==start.getI() && j==start.getJ()){
-                    System.out.println("S");
-                    continue;
-                }
-                if(i==goal.getI() && j==goal.getJ()){
-                    System.out.println("D");
-                    continue;
-                }
-                if(this.getMaze()[i][j] == 1)
-                    System.out.print("\u2b1b");
+            System.out.print("{ ");
+            for(int j=0;j<this.getM(); j++) {
+                if(i==start.getI() && j==start.getJ())
+                    System.out.print("S ");
+                else if(i==goal.getI() && j==goal.getJ())
+                    System.out.print("E ");
+                else if (this.getMaze()[i][j] == 1)
+                    System.out.print("1 ");//System.out.print("\u2b1b");
                 else
-                    System.out.print("\u2B1C");
+                    System.out.print("0 ");//System.out.print("\u2B1C");
             }
+            System.out.println("}");
         }
     }
 }

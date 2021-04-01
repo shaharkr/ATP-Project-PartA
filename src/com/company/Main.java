@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         AMazeGenerator mmg= new MyMazeGenerator();
         Maze maze=mmg.generate(100,100);
+        maze.print();
         //System.out.println(Arrays.deepToString(maze.getMaze()));
 
 

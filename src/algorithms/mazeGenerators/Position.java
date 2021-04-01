@@ -24,4 +24,12 @@ public class Position {
     public void setJ(int j) {
         this.j = j;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                 i +
+                "," + j +
+                '}';
+    }
 }
