@@ -1,6 +1,6 @@
 package algorithms.search;
 
-public abstract class AState {
+public abstract class AState implements Comparable<AState>{
     private AState cameFrom;
     private double cost;
     private String state;
@@ -44,4 +44,9 @@ public abstract class AState {
 
     @Override
     public abstract String toString();
+
+    @Override
+    public int compareTo(AState o) {
+        return Double.compare(this.cost,o.cost);
+    }
 }

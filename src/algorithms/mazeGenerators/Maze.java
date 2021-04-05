@@ -58,9 +58,9 @@ public class Maze {
                 else if(i==goal.getI() && j==goal.getJ())
                     System.out.print("E ");
                 else if (this.getMaze()[i][j] == 1)
-                    System.out.print("1 ");//System.out.print("\u2b1b");
+                    System.out.print("1 ");//System.out.print("\u2b1b");//
                 else
-                    System.out.print("0 ");//System.out.print("\u2B1C");
+                    System.out.print("0 ");//System.out.print("\u2B1C");//
             }
             System.out.println("}");
         }

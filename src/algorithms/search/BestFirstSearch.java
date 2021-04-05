@@ -1,12 +1,12 @@
 package algorithms.search;
 
-public class BestFirstSearch extends ASearchingAlgorithm{
-    public BestFirstSearch(String name) {
-        super(name);
+import java.util.PriorityQueue;
+
+public class BestFirstSearch extends BreadthFirstSearch{
+    public BestFirstSearch() {
+        super();
+        name="BestFirstSearch";
+        Q= new PriorityQueue<>();
     }
 
-    @Override
-    public Solution solve(ISearchable searchable) {
-        return null;
-    }
 }

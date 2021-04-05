@@ -1,22 +1,14 @@
 package algorithms.search;
 
+import java.util.ArrayList;
+
 public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
-
-    private int numberOfVisitedNodes;
-    private String name;
-
-    public ASearchingAlgorithm(String name) {
-        this.name = name;
-        this.numberOfVisitedNodes=0;
-    }
+    protected int numberOfNodesEvaluated=0;
+    protected String name;
 
     @Override
     public int getNumberOfNodesEvaluated() {
-        return numberOfVisitedNodes;
-    }
-
-    public void setNumberOfVisitedNodes(int numberOfVisitedNodes) {
-        this.numberOfVisitedNodes = numberOfVisitedNodes;
+        return numberOfNodesEvaluated;
     }
 
     @Override
@@ -26,5 +18,24 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setNumberOfNodesEvaluated(int numberOfNodesEvaluated) {
+        this.numberOfNodesEvaluated = numberOfNodesEvaluated;
+    }
+
+    public long measureAlgorithmTimeMillis(ISearchable domain){
+        long s,f;
+        s=System.currentTimeMillis();
+        Solution sol=this.solve(domain);
+        System.out.println(String.format("'%s' algorithm - nodes evaluated: %s", this.getName(), this.getNumberOfNodesEvaluated()));
+        //Printing Solution Path
+        System.out.println("Solution path:");
+        ArrayList<AState> solutionPath = sol.getSolutionPath();
+        for (int i = 0; i < solutionPath.size(); i++) {
+            System.out.println(String.format("%s. %s",i,solutionPath.get(i)));
+        }
+        f=System.currentTimeMillis();
+        return f-s;
     }
 }

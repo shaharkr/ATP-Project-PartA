@@ -30,8 +30,8 @@ public class SearchableMaze implements ISearchable{
         MazeState ms = (MazeState)as;
         int i =ms.getPosition().getI(), j = ms.getPosition().getJ();
         boolean up=false, down=false, left=false, right=false;
-        ArrayList<AState> to_ret = new ArrayList<>();/////////////////////////////
-        if (i!=0 &&maze.getMaze()[i-1][j]==0){//up
+        ArrayList<AState> to_ret = new ArrayList<>();
+        if (i!=0 && maze.getMaze()[i-1][j]==0){//up
             Position p = new Position(i-1,j);
             to_ret.add(new MazeState(p, ms.getCost()+10,p.toString()));
             up=true;
