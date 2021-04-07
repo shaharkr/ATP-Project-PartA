@@ -6,7 +6,7 @@ import java.util.*;
 public class BestFirstSearch  extends ASearchingAlgorithm{
     protected Queue<AState> Q;
     protected Map<String,AState> visited;
-    protected Map<String,AState> D;
+    protected Map<String,Double> D;
 
     public BestFirstSearch() {
         super();
@@ -17,6 +17,42 @@ public class BestFirstSearch  extends ASearchingAlgorithm{
     }
 
     public Solution solve(ISearchable searchable){
+        AState curr = searchable.getStartState();
+        curr.setCost(0);
+        D.put(curr.getState(),0.0);
+        Q.add(curr);
+        while (!Q.isEmpty()) {
+            curr = Q.poll();
+            if(curr.equals(searchable.getGoalState())){
+                break;
+            }
+            for (AState as : searchable.getAllSuccessors(curr)) {
+                if (!Q.contains(as) && !visited.containsKey(as.getState())) { //first time found
+                    as.setCost(D.get(curr.getState()) + as.getCost());
+                    as.setCameFrom(curr);
+                    Q.add(as);
+                    D.put(as.getState(),as.getCost());
+                }
+                else if (!Q.contains(as)) //in visited
+                    continue;
+                else{ //in Q
+                    if(D.get(as.getState())> D.get(curr.getState()) + as.getCost()){
+                        Q.remove(as);
+                        as.setCost(D.get(curr.getState()) + as.getCost());
+                        as.setCameFrom(curr);
+                        Q.add(as);
+                        D.put(as.getState(),as.getCost());
+                    }
+                }
+
+            }
+            visited.put(curr.getState(),curr);
+        }
+        return new Solution(curr);
+    }
+
+/*
+    public Solution solve2(ISearchable searchable){
         ArrayList<AState> as_lst = searchable.getAllAStates();
         AState curr = searchable.getStartState();
         for (AState as: as_lst ) {
@@ -81,5 +117,7 @@ public class BestFirstSearch  extends ASearchingAlgorithm{
         AState min_cost = goal_op.poll();
         return new Solution(min_cost);
     }
+*/
+
 
 }
