@@ -33,39 +33,53 @@ public class SearchableMaze implements ISearchable{
         ArrayList<AState> to_ret = new ArrayList<>();
         if (i!=0 && maze.getMaze()[i-1][j]==0){//up
             Position p = new Position(i-1,j);
-            to_ret.add(new MazeState(p, ms.getCost()+10,p.toString()));
+            to_ret.add(new MazeState(p, 10 ,p.toString()));
             up=true;
         }
         if(j!=0 && maze.getMaze()[i][j-1]==0) {//left
             Position p = new Position(i,j-1);
-            to_ret.add(new MazeState(new Position(i, j - 1), ms.getCost() + 10, p.toString()));
+            to_ret.add(new MazeState(new Position(i, j - 1), 10, p.toString()));
             left=true;
         }
         if(i!=maze.getN()-1 && maze.getMaze()[i+1][j]==0) {//down
             Position p =new Position(i+1,j);
-            to_ret.add(new MazeState(p, ms.getCost() + 10, p.toString()));
+            to_ret.add(new MazeState(p,  10, p.toString()));
             down=true;
         }
         if(j!=maze.getM()-1 && maze.getMaze()[i][j+1]==0) {//right
             Position p =new Position(i, j + 1);
-            to_ret.add(new MazeState(p, ms.getCost() + 10, p.toString()));
+            to_ret.add(new MazeState(p, 10, p.toString()));
             right=true;
         }
         if(i!=0 && j!=0 && maze.getMaze()[i-1][j-1]==0 && (up || left)){
             Position p =new Position(i-1, j - 1);
-            to_ret.add(new MazeState(p, ms.getCost() + 15, p.toString()));
+            to_ret.add(new MazeState(p,  15, p.toString()));
         }
         if(i!=0 && j!= maze.getM()-1 && maze.getMaze()[i-1][j+1]==0 && (up || right)){
             Position p =new Position(i-1, j+1);
-            to_ret.add(new MazeState(p, ms.getCost() + 15, p.toString()));
+            to_ret.add(new MazeState(p, 15, p.toString()));
         }
         if(i!= maze.getN()-1 && j!=0 && maze.getMaze()[i+1][j-1]==0 && (down || left)){
             Position p =new Position(i+1, j-1);
-            to_ret.add(new MazeState(p, ms.getCost() + 15, p.toString()));
+            to_ret.add(new MazeState(p,  15, p.toString()));
         }
         if(i!= maze.getN()-1 && j!= maze.getM()-1 && maze.getMaze()[i+1][j+1]==0 && (down || right)){
             Position p =new Position(i+1, j+1);
-            to_ret.add(new MazeState(p, ms.getCost() + 15, p.toString()));
+            to_ret.add(new MazeState(p, 15, p.toString()));
+        }
+        return to_ret;
+    }
+
+    @Override
+    public ArrayList<AState> getAllAStates() {
+        ArrayList<AState> to_ret = new ArrayList<>();
+        for (int i = 0; i < this.maze.getN(); i++) {
+            for (int j = 0; j <this.maze.getM() ; j++) {
+                if(maze.getMaze()[i+1][j+1]==0){
+                    Position p =new Position(i, j);
+                    to_ret.add(new MazeState(p, 0, p.toString()));
+                }
+            }
         }
         return to_ret;
     }
