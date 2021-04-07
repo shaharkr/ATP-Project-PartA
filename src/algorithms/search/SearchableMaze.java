@@ -4,6 +4,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SearchableMaze implements ISearchable{
     Maze maze;
@@ -75,7 +76,7 @@ public class SearchableMaze implements ISearchable{
         ArrayList<AState> to_ret = new ArrayList<>();
         for (int i = 0; i < this.maze.getN(); i++) {
             for (int j = 0; j <this.maze.getM() ; j++) {
-                if(maze.getMaze()[i+1][j+1]==0){
+                if(maze.getMaze()[i][j]==0){
                     Position p =new Position(i, j);
                     to_ret.add(new MazeState(p, 0, p.toString()));
                 }

@@ -1,13 +1,14 @@
 package algorithms.search;
 
+import algorithms.maze3D.Position3D;
 import algorithms.mazeGenerators.Position;
 
-public class MazeState extends AState{
-    private Position position;
+public class Maze3DState extends AState{
+    private Position3D position;
 
-    public MazeState(Position position, double cost, String state){
-        super(cost,state);
-        this.position = position;
+    public Maze3DState( Position3D pos, double cost, String state) {
+        super(cost, state);
+        this.position=pos;
     }
 
     @Override
@@ -15,8 +16,8 @@ public class MazeState extends AState{
         if (this.getClass() != o.getClass())
             return false;
         else{
-            MazeState mzo = (MazeState) o;
-            return position.equals(mzo.position);
+            Maze3DState mzo = (Maze3DState) o;
+            return this.position.equals(mzo.position);
         }
     }
 
@@ -30,11 +31,11 @@ public class MazeState extends AState{
         return position.toString();
     }
 
-    public Position getPosition() {
+    public Position3D getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Position3D position) {
         this.position = position;
     }
 }

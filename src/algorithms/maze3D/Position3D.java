@@ -15,13 +15,11 @@ public class Position3D {
         this.k=k;
     }
 
-    public int getI() {
-        return i;
-    }
+    public int getDepthIndex() {return k;}
 
-    public int getJ() {
-        return j;
-    }
+    public int getRowIndex() {return i;}
+
+    public int getColumnIndex() {return j;}
 
     public void setI(int i) {
         this.i = i;
@@ -31,9 +29,6 @@ public class Position3D {
         this.j = j;
     }
 
-    public int getK() {
-        return k;
-    }
 
     public void setK(int k) {
         this.k = k;
@@ -42,9 +37,9 @@ public class Position3D {
     @Override
     public String toString() {
         return
-                "{" + i +
+                "{" + k +
+                "," + i +
                 "," + j +
-                "," + k +
                 '}';
     }
 

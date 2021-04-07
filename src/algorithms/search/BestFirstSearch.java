@@ -29,22 +29,29 @@ public class BestFirstSearch  extends ASearchingAlgorithm{
             }
             as.setCameFrom(null);
             D.put(as.getState(),as);
+            Q.add(as);
         }
-        Q.add(curr);
         while(!Q.isEmpty()){
             curr=Q.poll();
+            if(curr.equals(searchable.getGoalState())){
+                break;
+            }
             visited.put(curr.getState(),curr);
             ArrayList<AState> successors = searchable.getAllSuccessors(curr);
             for (AState as: successors) {
+                if (!Q.contains(as))
+                    continue;
                 AState asD = D.get(as.getState());
                 if(asD.getCost()> curr.getCost() + as.getCost()){
+                    Q.remove(asD);
                     asD.setCost(curr.getCost() + as.getCost());
                     asD.setCameFrom(curr);
+                    Q.add(asD);
                 }
             }
         }
-        AState fin = D.get(searchable.getGoalState().getState());
-        return new Solution(fin);
+        //AState fin = visited.get(searchable.getGoalState().getState());
+        return new Solution(curr);
     }
 
     public Solution solve1(ISearchable searchable) {
@@ -55,6 +62,9 @@ public class BestFirstSearch  extends ASearchingAlgorithm{
         AState curr = start;
         while(!Q.isEmpty()){
             curr = Q.poll();
+            if(curr.equals(searchable.getGoalState())){
+                break;
+            }
             visited.put(curr.getState(), curr);
             setNumberOfNodesEvaluated(this.getNumberOfNodesEvaluated()+1);
             ArrayList<AState> lst = searchable.getAllSuccessors(curr);

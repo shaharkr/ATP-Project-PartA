@@ -1,13 +1,16 @@
 package algorithms.test;
+import algorithms.maze3D.IMazeGenerator3D;
+import algorithms.maze3D.Maze3D;
+import algorithms.maze3D.MyMaze3DGenerator;
 import algorithms.mazeGenerators.*;
 import algorithms.search.*;
 import java.util.ArrayList;
 
 public class RunSearchOnMaze {
     public static void main(String[] args) {
-        IMazeGenerator mg = new EmptyMazeGenerator();
-        Maze maze = mg.generate(4, 5);
-        maze.setPlaceInMaze(new Position(1,2),1);
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(1000, 1000);
+       /* maze.setPlaceInMaze(new Position(1,2),1);
         maze.setPlaceInMaze(new Position(1,3),1);
         maze.setPlaceInMaze(new Position(2,3),1);
         maze.setPlaceInMaze(new Position(2,0),1);
@@ -15,12 +18,12 @@ public class RunSearchOnMaze {
         maze.setPlaceInMaze(new Position(3,1),1);
         maze.setStart(new Position(0,0));
         maze.setGoal(new Position(2,4));
-        /*IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(1000, 1000);*/
+       /* IMazeGenerator3D mg = new MyMaze3DGenerator();
+        Maze3D maze = mg.generate(100, 100,100);*/
         maze.print();
         SearchableMaze searchableMaze = new SearchableMaze(maze);
         solveProblem(searchableMaze, new BreadthFirstSearch());
-        solveProblem(searchableMaze, new DepthFirstSearch());
+        //solveProblem(searchableMaze, new DepthFirstSearch());
         solveProblem(searchableMaze, new BestFirstSearch());
     }
     private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {

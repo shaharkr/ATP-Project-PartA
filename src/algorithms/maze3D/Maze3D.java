@@ -50,18 +50,20 @@ public class Maze3D{
     }
 
     public void setPlaceInMaze3D(Position3D pos, int num) {
-        maze[pos.getK()][pos.getI()][pos.getJ()]=num;
+        maze[pos.getDepthIndex()][pos.getRowIndex()][pos.getColumnIndex()]=num;
     }
 
     public void print(){
+        System.out.println(this.getStartPosition3D().toString());
+        System.out.println(this.getGoalPosition3D().toString());
         System.out.println("{");
         for (int k=0; k<this.getK();k++) {
             for (int i = 0; i < this.getN(); i++) {
                 System.out.print("{ ");
                 for (int j = 0; j < this.getM(); j++) {
-                    if (i == start.getI() && j == start.getJ() && k == start.getK())
+                    if (i == start.getRowIndex() && j == start.getColumnIndex() && k == start.getDepthIndex())
                         System.out.print("S ");
-                    else if (i == goal.getI() && j == goal.getJ() && k == start.getK())
+                    else if (i == goal.getRowIndex() && j == goal.getColumnIndex() && k == goal.getDepthIndex())
                         System.out.print("E ");
                     else if (this.getMaze()[k][i][j] == 1)
                         System.out.print("1 ");//System.out.print("\u2b1b");//
@@ -71,7 +73,7 @@ public class Maze3D{
                 System.out.println("}");
             }
             if(k!=this.getK()-1) {
-                for (int j = 0; j < getM(); j++) {
+                for (int j = 0; j < getM()*2+3; j++) {
                     System.out.print("-");
                 }
             }
