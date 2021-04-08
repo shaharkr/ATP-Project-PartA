@@ -15,21 +15,20 @@ public abstract class AState implements Comparable<AState>{
         return cameFrom;
     }
 
-    public void setCameFrom(AState cameFrom) {
-        this.cameFrom = cameFrom;
-    }
-
     public double getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-
     public String getState() {
         return state;
+    }
+
+    public void setCameFrom(AState cameFrom) {
+        this.cameFrom = cameFrom;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public void setState(String state) {

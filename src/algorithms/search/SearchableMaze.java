@@ -26,8 +26,8 @@ public class SearchableMaze implements ISearchable{
     }
 
     @Override
-    public ArrayList<AState> getAllSuccessors(AState as) {
-        if (as==null) return null;
+    public ArrayList<AState> getAllSuccessors(AState as) throws Exception{
+        if (as==null) throw new Exception("Cannot find successors of null");
         MazeState ms = (MazeState)as;
         int i =ms.getPosition().getI(), j = ms.getPosition().getJ();
         boolean up=false, down=false, left=false, right=false;
@@ -71,18 +71,5 @@ public class SearchableMaze implements ISearchable{
         return to_ret;
     }
 
-    @Override
-    public ArrayList<AState> getAllAStates() {
-        ArrayList<AState> to_ret = new ArrayList<>();
-        for (int i = 0; i < this.maze.getN(); i++) {
-            for (int j = 0; j <this.maze.getM() ; j++) {
-                if(maze.getMaze()[i][j]==0){
-                    Position p =new Position(i, j);
-                    to_ret.add(new MazeState(p, 0, p.toString()));
-                }
-            }
-        }
-        return to_ret;
-    }
 
 }

@@ -35,7 +35,10 @@ public class Maze3DState extends AState{
         return position;
     }
 
-    public void setPosition(Position3D position) {
+    public void setPosition(Position3D position) throws Exception {
+        if(position.getDepthIndex()<0 || position.getRowIndex()<0 || position.getColumnIndex()<0){
+            throw new Exception("Invalid inputs: Position in Maze must have positives indexes/n");
+        }
         this.position = position;
     }
 }

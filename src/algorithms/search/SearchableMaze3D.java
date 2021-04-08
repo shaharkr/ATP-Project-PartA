@@ -27,8 +27,8 @@ public class SearchableMaze3D implements ISearchable{
     }
 
     @Override
-    public ArrayList<AState> getAllSuccessors(AState as) {
-        if (as==null) return null;
+    public ArrayList<AState> getAllSuccessors(AState as) throws Exception{
+        if (as==null) throw new Exception("Cannot find successors of null");
         Maze3DState ms = (Maze3DState)as;
         int k=ms.getPosition().getDepthIndex(), i =ms.getPosition().getRowIndex(), j = ms.getPosition().getColumnIndex();
         ArrayList<AState> to_ret = new ArrayList<>();
@@ -58,11 +58,6 @@ public class SearchableMaze3D implements ISearchable{
         }
         return to_ret;
 
-    }
-
-    @Override
-    public ArrayList<AState> getAllAStates() {
-        return null;
     }
 
     public Maze3D getMaze() {

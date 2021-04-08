@@ -8,47 +8,49 @@ import java.util.Random;
 import java.util.Stack;
 
 public class MyMaze3DGenerator extends AMaze3DGenerator{
-    private int[][][] maze;
-    private Position3D start;
-    private Position3D goal;
 
     @Override
-    public Maze3D generate(int depth, int row, int column) {
-        Maze3D maze = onesMaze(depth,row,column);
-        this.dfsMaze3D(maze);
-        return maze;
-    }
-
-    private Maze3D onesMaze(int _k, int _n, int _m) {
-        int[][][] maze = new int[_k][_n][_m];
-        for(int k=0;k<_k;k++){
-            for(int i=0;i<_n;i++){
-                for (int j = 0; j <_m ; j++) {
+    public Maze3D generate(int depth, int row, int column) throws Exception {
+        if(depth<0 || row<0 || column<0){
+            throw new Exception("Invalid inputs: depth, row and column need to be positive integers\n");
+        }
+        int[][][] maze = new int[depth][row][column];
+        //updating the entire maze to 1's(walls).
+        for(int k=0;k<depth;k++){
+            for(int i=0;i<row;i++){
+                for (int j = 0; j <column ; j++) {
                     maze[k][i][j]=1;
                 }
             }
         }
-        int fk=_k-1;
-        if(_k%2==0){
-            fk=_k-2;
+        int fk=depth-1;
+        if(depth%2==0){
+            fk=depth-2;
         }
+        //randomizing start and end position in a way fitting to the algorithm, and not colliding
         Random r = new Random();
-        int si = r.nextInt((int)_n / 2);
-        if (si%2 != (_n-1)%2)
+        int si = r.nextInt((int)row / 2);
+        if (si%2 != (row-1)%2)
             si+=1;
-        int fj = ((int)_m/2) + r.nextInt((int)_m / 2) - 1;
+        int fj = ((int)column/2) + r.nextInt((int)column / 2) - 1;
         if (fj%2 != 0)
             fj-=1;
         Position3D start=new Position3D(0,si, 0);
-        Position3D goal=new Position3D(fk,_n-1,fj);
-        return new Maze3D(start,goal,maze);
+        Position3D goal=new Position3D(fk,row-1,fj);
+        Maze3D new_maze = new Maze3D(start,goal,maze);
+        this.dfsMaze3D(new_maze);
+        return new_maze;
     }
 
+    /**
+     * @param maze receives maze full of walls(1's) and breaks the walls according to dfs algorithm.
+     */
     private void dfsMaze3D(Maze3D maze){
         int[][][] visited=new int[maze.getK()][maze.getN()][maze.getM()];
         Stack<Position3D> s = new Stack<>();
         Position3D curr=maze.getStartPosition3D(), goal=maze.getGoalPosition3D();
-        maze.setPlaceInMaze3D(curr,0);
+        try{maze.setPlaceInMaze3D(curr,0);}
+        catch (Exception e){System.out.println(e.getMessage());}
         visited[curr.getDepthIndex()][curr.getRowIndex()][curr.getColumnIndex()]=1;
         s.push(curr);
         while(!s.isEmpty()){
@@ -56,7 +58,8 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
             Position3D temp=this.checkVisited(visited,this.getNeighbors(maze,curr));
             if(!(temp==null)){
                 s.push(curr);
-                maze.setPlaceInMaze3D(temp,0);
+                try{maze.setPlaceInMaze3D(temp,0);}
+                catch (Exception e){System.out.println(e.getMessage());}
                 int k=curr.getDepthIndex(), i= curr.getRowIndex(), j=curr.getColumnIndex();
                 if(curr.getDepthIndex()!=temp.getDepthIndex()){
                     if(curr.getDepthIndex()<temp.getDepthIndex()) k=curr.getDepthIndex()+1;
@@ -70,15 +73,37 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
                     if(curr.getColumnIndex()<temp.getColumnIndex()) j=curr.getColumnIndex()+1;
                     else j=curr.getColumnIndex()-1;
                 }
-                maze.setPlaceInMaze3D(new Position3D(k, i,j), 0);
+                try{maze.setPlaceInMaze3D(new Position3D(k, i,j), 0);}
+                catch (Exception e){System.out.println(e.getMessage());}
                 visited[k][i][j]=1;
                 visited[temp.getDepthIndex()][temp.getRowIndex()][temp.getColumnIndex()]=1;
                 visited[temp.getDepthIndex()][curr.getRowIndex()][curr.getColumnIndex()]=1;
                 s.push(temp);
             }
         }
+
+        if(maze.getGoalPosition3D().getDepthIndex()==maze.getK()-2){
+            this.randomlyZeroes(maze);
+        }
     }
 
+    private void randomlyZeroes(Maze3D maze) {
+        //in case of sync problem with 3D maze break some random walls at last board.
+        Random r = new Random();
+        int num_of_zero= (int)((maze.getN()*maze.getM())/3);
+        for (int i = 0; i < num_of_zero; i++) {
+            int row = r.nextInt(maze.getN());
+            int col = r.nextInt(maze.getM());
+            try{maze.setPlaceInMaze3D(new Position3D(maze.getK()-1,row,col),0);}
+            catch (Exception e){System.out.println(e.getMessage());}
+        }
+    }
+
+    /**
+     * @param maze = 3D maze
+     * @param p = specific position in maze
+     * @return list of all 3D positions maze is capable of reaching.
+     */
     private ArrayList<Position3D> getNeighbors(Maze3D maze, Position3D p){
         ArrayList<Position3D> to_ret = new ArrayList<>();
         if(p.getRowIndex()>1)//up exist
@@ -96,6 +121,11 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         return to_ret;
     }
 
+    /**
+     * @param visited 3D array whereas if visited(k,i,j)=1 then (i,k,j) was already found via dfs_visit
+     * @param lst list of positions in neighborhood with a certain position
+     * @return randomized position of lst that has not been visited by dfs_visit
+     */
     private Position3D checkVisited(int[][][] visited,ArrayList<Position3D> lst){
         ArrayList<Position3D> temp = (ArrayList<Position3D>) lst.clone();
         for (Position3D p: lst) {
@@ -109,28 +139,5 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         return temp.get(rand);
     }
 
-    public int[][][] getMap() {
-        return maze;
-    }
-
-    public void setMap(int[][][] maze) {
-        this.maze = maze;
-    }
-
-    public Position3D getStartPosition() {
-        return start;
-    }
-
-    public void setStartPosition(Position3D start) {
-        this.start = start;
-    }
-
-    public Position3D getGoalPosition() {
-        return goal;
-    }
-
-    public void setGoalPosition(Position3D goal) {
-        this.goal = goal;
-    }
 
 }

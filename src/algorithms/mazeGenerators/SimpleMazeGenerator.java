@@ -6,7 +6,10 @@ public class SimpleMazeGenerator extends AMazeGenerator{
 
     @Override
 
-    public Maze generate(int n, int m) {
+    public Maze generate(int n, int m) throws Exception{
+        if(n<0 || m<0){
+            throw new Exception("Invalid inputs: n and m need to be positive integers\n");
+        }
         int[][] map = new int[n][m];
 
         for(int i=0;i<n;i++) {
@@ -43,22 +46,6 @@ public class SimpleMazeGenerator extends AMazeGenerator{
             else if(num<0.875 && curr.getI()<n-1) {//down
                 curr.setI(curr.getI()+1);
             }
-            /*else if(num<0.25 && 0<curr.getI() && curr.getJ()<m-1) {//right up
-                curr.setI(curr.getI()-1);
-                curr.setJ(curr.getJ()+1);
-            }
-            else if(num<0.5 && 0<curr.getI() && 0<curr.getJ()) {//left up
-                curr.setI(curr.getI()-1);
-                curr.setJ(curr.getJ()-1);
-            }
-            else if(num<0.75 && curr.getI()<n-1 && 0<curr.getJ()) {//left down
-                curr.setI(curr.getI()+1);
-                curr.setJ(curr.getJ()-1);
-            }
-            else if( curr.getI()<n-1 && curr.getJ()<m-1) {//right down
-                curr.setI(curr.getI()+1);
-                curr.setJ(curr.getJ()+1);
-            }*/
             maze.setPlaceInMaze(curr, 0);
         }
         /*create path to goal*/

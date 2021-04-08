@@ -9,6 +9,10 @@ public class Solution {
         createPath(as);
     }
 
+    /**
+     * @param as state with updated cameFrom
+     * runs over the cameFrom's until reaching null, aka, the start of the searchable problem.
+     */
     private void createPath(AState as){
         AState curr = as;
         while (curr!=null){

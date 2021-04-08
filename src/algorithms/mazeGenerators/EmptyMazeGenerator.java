@@ -1,17 +1,20 @@
 package algorithms.mazeGenerators;
 
 public class EmptyMazeGenerator extends AMazeGenerator{
-    public EmptyMazeGenerator() {
-    }
 
     @Override
-    public Maze generate(int n, int m) {
+    public Maze generate(int n, int m) throws Exception{
+        if(n<0 || m<0){
+            throw new Exception("Invalid inputs: n and m need to be positive integers\n");
+        }
         int[][] maze = new int[n][m];
+        //initiate the maze with empty spaces(0's)
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 maze[i][j]=0;
             }
         }
+        //set start as upper left corner and goal as lower right corner
         Position start=new Position(0,0);
         Position goal=new Position(n-1,m-1);
         return new Maze(start,goal,maze);
