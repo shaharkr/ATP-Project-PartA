@@ -1,20 +1,24 @@
 package algorithms.search;
 
-import algorithms.maze3D.Maze3D;
 import algorithms.mazeGenerators.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * this classes checks the basic functionality of the best first search algorithm.
+ */
 class BestFirstSearchTest {
     BestFirstSearch bestFS=new BestFirstSearch();
 
+    //check that the name was initiated correctly.
     @Test
     public void getName() throws Exception{
-
        assertEquals("BestFirstSearch",bestFS.getName());
     }
 
+    //this method checks that numberOfNodesEvaluated is initiated to 0,
+    //and that when start=goal, the numberOfNodesEvaluated is returned to 1.
     @Test
     public void getNumberOfNodesEvaluated() throws Exception{
         AMazeGenerator amg = new EmptyMazeGenerator();
@@ -26,12 +30,16 @@ class BestFirstSearchTest {
         assertEquals(bestFS.getNumberOfNodesEvaluated(),1);
     }
 
-    //////////////////////////////////////////////////////////////////
+    //checks that the error message for trying to solve null is correct.
+    @Test
     public void solve() throws Exception{
-        bestFS.solve(null);
+        Exception e = assertThrows(Exception.class,()->{bestFS.solve(null);});
+        String message = e.getMessage();
+        String expectedMessage = "Cannot solve null, searchable can't be null\n";
+        assertTrue(message.equals(expectedMessage));
     }
-    ////////////////////////////////////////////////////////////////
 
+    //check that the algorithm creates a 1000X1000 maze in under a minute.
     @Test
     public void measureAlgorithmTimeMillis() throws Exception{
         AMazeGenerator amg = new MyMazeGenerator();

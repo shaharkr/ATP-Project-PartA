@@ -1,11 +1,20 @@
 package algorithms.search;
 
-import algorithms.mazeGenerators.Position;
 import java.util.*;
 
+/**
+ * this class extends BFS algorithm by using a priority queue instead of regular queue.
+ * the successor traversing is different.
+ */
 public class BestFirstSearch  extends BreadthFirstSearch{
     protected Map<String,Double> D;
 
+    /**
+     * constructor, calls super and changes name.
+     * initiates Q to priority queue
+     * uses a map to save the minimal total cost. D[u] = minimal total cost to u
+     * found so far.
+     */
     public BestFirstSearch() {
         super();
         name="BestFirstSearch";
@@ -20,6 +29,13 @@ public class BestFirstSearch  extends BreadthFirstSearch{
         return super.solve(searchable);
     }
 
+    /**
+     * @param as   state that curr can reach
+     * @param curr current state in searching pattern
+     * checks if node is has been seen before, if not, adding it to Q and D.
+     * if yes, and the node was removed from Q, continues without action.
+     * if yes, but node is still in Q, updates it's cost if relevant.
+     */
     @Override
     protected void passSuccessors(AState as, AState curr){
         if (!Q.contains(as) && !visited.containsKey(as.getState())) { //first time found-white

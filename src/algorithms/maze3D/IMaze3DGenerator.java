@@ -1,6 +1,9 @@
 package algorithms.maze3D;
-
-public interface IMazeGenerator3D {
+/**
+ * this interface is for every class implementing a 3D MazeGenerator,
+ * must implement "generate" and "measureAlgorithmTime".
+ */
+public interface IMaze3DGenerator {
     /**
      * @param depth = depth of requested maze
      * @param row = rows(n) of requested maze

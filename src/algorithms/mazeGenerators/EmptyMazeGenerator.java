@@ -1,7 +1,10 @@
 package algorithms.mazeGenerators;
 
+/**
+ * EmptyMazeGenerator is a basic 2D maze generator, creating an empty maze with start at [0,0].
+ * it extends AMazeGenerator which implements measureTimeInMilliseconds.
+ */
 public class EmptyMazeGenerator extends AMazeGenerator{
-
     @Override
     public Maze generate(int n, int m) throws Exception{
         if(n<0 || m<0){

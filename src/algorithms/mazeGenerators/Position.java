@@ -1,33 +1,41 @@
 package algorithms.mazeGenerators;
 
-import algorithms.search.MazeState;
-
+/**
+ * Position is an object representing a 2 coordinates.
+ */
 public class Position {
     private int i;
     private int j;
 
+    /**
+     * @param i the row of the position
+     * @param j the column of the position
+     */
     public Position(int i, int j) {
         this.i = i;
         this.j = j;
     }
 
-    public int getI() {
+    //getters methods
+    public int getRowIndex() {
         return i;
     }
-
-    public int getJ() {
+    public int getColumnIndex() {
         return j;
     }
 
+    //setters methods
     public void setI(int i) {
         this.i = i;
     }
-
     public void setJ(int j) {
         this.j = j;
     }
 
     @Override
+    /**
+     * @return String in the format "{<row>,<column>}"
+     */
     public String toString() {
         return "{" +
                  i +
@@ -35,12 +43,17 @@ public class Position {
                 '}';
     }
 
+    @Override
+    /**
+     * @param o a certain Object.
+     * @return true if o is of type position having the same row and column as this.
+     */
     public boolean equals(Object o) {
         if (this.getClass() != o.getClass())
             return false;
         else{
             Position p = (Position) o;
-            return (this.getI()==p.getI() && this.getJ()==p.getJ());
+            return (this.getRowIndex()==p.getRowIndex() && this.getColumnIndex()==p.getColumnIndex());
         }
     }
 }

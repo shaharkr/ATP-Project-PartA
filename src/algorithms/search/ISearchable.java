@@ -1,8 +1,11 @@
 package algorithms.search;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
+/**
+ * ISearchable is an interface implemented by classes that represent problems
+ * which are searchable
+ */
 public interface ISearchable {
     AState getStartState();
     AState getGoalState();

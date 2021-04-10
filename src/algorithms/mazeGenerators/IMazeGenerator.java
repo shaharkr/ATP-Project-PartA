@@ -1,5 +1,9 @@
 package algorithms.mazeGenerators;
 
+/**
+ * IMazeGenerator interface is a factory of the object Maze. every generator which implements this interface
+ * must implement generate and measureAlgorithmTimeMillis.
+ */
 public interface IMazeGenerator {
     /**
      * @param n amount of rows in maze created

@@ -6,13 +6,21 @@ import algorithms.mazeGenerators.Position;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * SearchableMaze is a class adapting the ISearchable interface
+ * to the maze problem.
+ */
 public class SearchableMaze implements ISearchable{
     Maze maze;
 
+    /**
+     * @param maze the maze that is being adapted to ISearchable.
+     */
     public SearchableMaze(Maze maze) {
         this.maze = maze;
     }
 
+    //getter methods.
     @Override
     public AState getStartState() {
         Position p =maze.getStartPosition();
@@ -25,11 +33,16 @@ public class SearchableMaze implements ISearchable{
         return new MazeState(p,0,p.toString());
     }
 
+    /**
+     * @param as a certain state in the searchable problem.
+     * @return list of states that can be reached from as.
+     * @throws Exception if as is null.
+     */
     @Override
     public ArrayList<AState> getAllSuccessors(AState as) throws Exception{
         if (as==null) throw new Exception("Cannot find successors of null");
         MazeState ms = (MazeState)as;
-        int i =ms.getPosition().getI(), j = ms.getPosition().getJ();
+        int i =ms.getPosition().getRowIndex(), j = ms.getPosition().getColumnIndex();
         boolean up=false, down=false, left=false, right=false;
         ArrayList<AState> to_ret = new ArrayList<>();
         if (i!=0 && maze.getMaze()[i-1][j]==0){//up

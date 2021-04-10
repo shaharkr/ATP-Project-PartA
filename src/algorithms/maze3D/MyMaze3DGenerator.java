@@ -1,20 +1,29 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.Position;
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 
+/**
+ * MyMaze3DGenerator is a specific 3D maze generator. it extends AMaze3DGenerator.
+ * the generation of the maze is done using randomized dfs visit algorithm
+ */
 public class MyMaze3DGenerator extends AMaze3DGenerator{
 
     @Override
+    /**
+     * @param depth  = depth of requested maze
+     * @param row    = rows(n) of requested maze
+     * @param column = columns(m) of requested maze
+     * @return 3D maze generated via randomized dfs visit algorithm
+     * @throws Exception if size inputted is illegal.
+     */
     public Maze3D generate(int depth, int row, int column) throws Exception {
         if(depth<0 || row<0 || column<0){
             throw new Exception("Invalid inputs: depth, row and column need to be positive integers\n");
         }
         int[][][] maze = new int[depth][row][column];
+
         //updating the entire maze to 1's(walls).
         for(int k=0;k<depth;k++){
             for(int i=0;i<row;i++){
@@ -32,8 +41,8 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         int si = r.nextInt((int)row / 2);
         if (si%2 != (row-1)%2)
             si+=1;
-        int fj = ((int)column/2) + r.nextInt((int)column / 2) - 1;
-        if (fj%2 != 0)
+        int fj = ((int)column/2) + r.nextInt((int)column / 2) ;
+        if (fj%2 != 0 && row!=2)
             fj-=1;
         Position3D start=new Position3D(0,si, 0);
         Position3D goal=new Position3D(fk,row-1,fj);
@@ -43,7 +52,8 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
     }
 
     /**
-     * @param maze receives maze full of walls(1's) and breaks the walls according to dfs algorithm.
+     * @param maze receives maze full of walls(1's) and breaks the walls
+     *             according to iterative dfs algorithm, using a stack
      */
     private void dfsMaze3D(Maze3D maze){
         int[][][] visited=new int[maze.getK()][maze.getN()][maze.getM()];
@@ -56,11 +66,13 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         while(!s.isEmpty()){
             curr=s.pop();
             Position3D temp=this.checkVisited(visited,this.getNeighbors(maze,curr));
+            //if there are unvisited free neighbors, add curr and them to the stack and continue.
             if(!(temp==null)){
                 s.push(curr);
                 try{maze.setPlaceInMaze3D(temp,0);}
                 catch (Exception e){System.out.println(e.getMessage());}
                 int k=curr.getDepthIndex(), i= curr.getRowIndex(), j=curr.getColumnIndex();
+                //create new position according to the difference between curr and temp
                 if(curr.getDepthIndex()!=temp.getDepthIndex()){
                     if(curr.getDepthIndex()<temp.getDepthIndex()) k=curr.getDepthIndex()+1;
                     else k=curr.getDepthIndex()-1;
@@ -81,12 +93,18 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
                 s.push(temp);
             }
         }
-
+        //there is a size problem if k is evan. we fix it with randomlyZeroes.
         if(maze.getGoalPosition3D().getDepthIndex()==maze.getK()-2){
             this.randomlyZeroes(maze);
         }
     }
 
+    /**
+     * @param maze the 3D maze we are generating.
+     * there is an issue if K is evan. the last layer is all wall.
+     * it is basically fine, but we want to fix it for especially for smaller mazes.
+     * we randomize maximum third of the layer with zeroes.
+     */
     private void randomlyZeroes(Maze3D maze) {
         //in case of sync problem with 3D maze break some random walls at last board.
         Random r = new Random();
@@ -138,6 +156,4 @@ public class MyMaze3DGenerator extends AMaze3DGenerator{
         int rand = r.nextInt(temp.size());
         return temp.get(rand);
     }
-
-
 }

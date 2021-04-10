@@ -2,6 +2,10 @@ package algorithms.search;
 
 import java.util.ArrayList;
 
+/**
+ * Solution is a class representing a series of states leading from
+ * start position to a goal position.
+ */
 public class Solution {
     ArrayList<AState> sol;
     public Solution(AState as) {
@@ -21,6 +25,7 @@ public class Solution {
         }
     }
 
+    //getter to the solution member.
     public ArrayList<AState> getSolutionPath(){
         return sol;
     }

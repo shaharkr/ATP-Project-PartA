@@ -1,4 +1,4 @@
-package algorithms.test;
+package test;
 
 public class GeneralCheckingFunctions {
     public static boolean check3DMaze(){

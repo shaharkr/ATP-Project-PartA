@@ -13,7 +13,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
 
     @Override
     public Solution solve(ISearchable searchable) throws Exception{
-        if(searchable==null)throw new Exception("Cannot solve null, searchable can't be null\n");
+        super.solve(searchable);
         AState start = searchable.getStartState();
         AState end = searchable.getGoalState();
         AState res = dfsVisitIter( searchable, start, end);
