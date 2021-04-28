@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * this classes checks the basic functionality of the best first search algorithm.
+ * this JUnit test class checks the basic functionality of the best first search algorithm.
  */
 class BestFirstSearchTest {
     BestFirstSearch bestFS=new BestFirstSearch();
