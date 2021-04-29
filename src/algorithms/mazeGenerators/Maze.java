@@ -139,19 +139,19 @@ public class Maze {
         byte[] goal_pos = mergeArrays(intToByte(g_i), intToByte(g_j));
         byte[] start_goal = mergeArrays(start_pos,goal_pos);
 
-        byte[] deteails = mergeArrays(row_col,start_goal);
+        byte[] details = mergeArrays(row_col,start_goal);
 
         byte[] maze_numbers = new byte[maze.length*maze[0].length];
         int i=0, index =0;
         for (int[] row: maze) {
-            while(i<rows){
+            while(i<cols){
                 maze_numbers[index] = (byte)row[i];
                 i++;
                 index++;
             }
             i=0;
         }
-        return mergeArrays(deteails,maze_numbers);
+        return mergeArrays(details,maze_numbers);
     }
 
     /**
