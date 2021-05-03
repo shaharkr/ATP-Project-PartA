@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Stack;
 
+/**
+ * this class is a decorator for output stream which adds a functionality of compressing the output.
+ */
 public class SimpleCompressorOutputStream extends OutputStream {
     OutputStream out;
 
@@ -16,6 +19,11 @@ public class SimpleCompressorOutputStream extends OutputStream {
         out.write(b);
     }
 
+    /**
+     * @param b an array that holds maze's details.
+     * we will compress the details and send them forward via the out stream.
+     * @throws IOException
+     */
     @Override
     public void write(byte[] b) throws IOException {
         Stack<Integer> stackI = new Stack<>();

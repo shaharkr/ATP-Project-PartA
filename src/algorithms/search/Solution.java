@@ -1,16 +1,21 @@
 package algorithms.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Solution is a class representing a series of states leading from
  * start position to a goal position.
  */
-public class Solution {
+public class Solution implements Serializable {
     ArrayList<AState> sol;
     public Solution(AState as) {
         sol= new ArrayList<>();
         createPath(as);
+    }
+
+    public Solution(ArrayList<AState> sol) {
+        this.sol = sol;
     }
 
     /**

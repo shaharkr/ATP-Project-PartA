@@ -1,6 +1,9 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
 import java.util.Stack;
+
+import static IO.byteIntOperations.byteToInt;
 
 /**
  * this class is representing a 2D maze.
@@ -8,7 +11,7 @@ import java.util.Stack;
  * start is a position object representing the entrance point to the maze.
  * goal is a position object representing the exit point of the maze.
  */
-public class Maze {
+public class Maze implements Serializable {
     private int[][] maze;
     private Position start;
     private Position goal;
@@ -184,25 +187,4 @@ public class Maze {
         return to_ret;
     }
 
-
-    /**
-     * convert byte number to int number. maximum int size is 1020.
-     * @param a first byte
-     * @param b second byte
-     * @param c third byte
-     * @param d fourth byte
-     * @return integer represented by the four bytes.
-     */
-    private int byteToInt(byte a,byte b,byte c,byte d){
-        int ai,bi,ci,di;
-        if((int)a<0){ai = 256+(int)a; }
-        else{ai=(int)a;}
-        if((int)b<0){bi = 256+(int)b; }
-        else{bi=(int)b;}
-        if((int)c<0){ci = 256+(int)c; }
-        else{ci=(int)c;}
-        if((int)d<0){di = 256+(int)d; }
-        else{di=(int)d;}
-        return ai+bi+ci+di;
-    }
 }

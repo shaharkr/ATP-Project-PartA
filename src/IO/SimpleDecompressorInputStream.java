@@ -3,6 +3,9 @@ package IO;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * this is a decorator for input stream which adds the functionality of decompressing of mazes.
+ */
 public class SimpleDecompressorInputStream extends InputStream {
     InputStream in;
 
@@ -15,6 +18,11 @@ public class SimpleDecompressorInputStream extends InputStream {
         return in.read();
     }
 
+    /**
+     * @param b an array to which we will write the inputted data, after extracting it.
+     * @return amount of data read.
+     * @throws IOException
+     */
     public int read(byte b[]) throws IOException {
         int index = 0;
         int curr=0;

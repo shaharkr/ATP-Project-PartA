@@ -1,9 +1,11 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
+
 /**
  * Position is an object representing a 2 coordinates.
  */
-public class Position {
+public class Position implements Serializable {
     private int i;
     private int j;
 

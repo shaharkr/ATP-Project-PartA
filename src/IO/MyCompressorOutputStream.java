@@ -1,10 +1,18 @@
 package IO;
 
+import algorithms.mazeGenerators.Maze;
+
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Queue;
-import java.util.Stack;
 
+
+import static IO.byteIntOperations.byteToInt;
+
+/**
+ * this class is a decorator to output stream which adds the compression functionally to the stream, given its a byte array.
+ * the compression takes the bytes from 24 and forth, knowing they are binary, and treats them like bits, compressing every 8 bits
+ * to one byte.
+ */
 public class MyCompressorOutputStream extends OutputStream {
     OutputStream out;
 
@@ -17,6 +25,15 @@ public class MyCompressorOutputStream extends OutputStream {
         out.write(b);
     }
 
+    public void write(Object o) throws IOException {
+        this.write(((Maze)o).toByteArray());
+    }
+
+    /**
+     * this method writes a compressed byte array version of the byte array in param b
+     * @param b byte array from which we read the maze details, and write them, compressed into out
+     * @throws IOException
+     */
     @Override
     public void write(byte[] b) throws IOException {
         int index=24,count=0,to_add=0,flag=0;
@@ -28,46 +45,29 @@ public class MyCompressorOutputStream extends OutputStream {
         byte[] to_ret = new byte[temp + 24];
         for (int i = 0; i < b.length; i++) {
             if(i<24){
+                //first 24 are the dimensions of the maze, remain the same.
                 to_ret[i] = b[i];
                 continue;
             }
             if(count<8){
+                //count every 8 bits to 1 byte.
                 to_add+=Math.pow(2,7-count)*(int)b[i];
-                flag=0;
+                //flag=0;i
             }
             else{
                 to_ret[index]=(byte)to_add;
                 index++;
-                flag=1;
+                //flag=1;
                 count=0;
                 to_add =(int)Math.pow(2,7-count)*(int)b[i];
             }
             count++;
         }
-        to_ret[index-flag]=(byte)to_add;
+        //add last byte.
+        to_ret[index/*-flag*/]=(byte)to_add;
         for (int j = 0; j < to_ret.length; j++) {
             this.write(to_ret[j]);
         }
     }
 
-    /**
-     * convert byte number to int number. maximum int size is 1020.
-     * @param a first byte
-     * @param b second byte
-     * @param c third byte
-     * @param d fourth byte
-     * @return integer represented by the four bytes.
-     */
-    private int byteToInt(byte a,byte b,byte c,byte d){
-        int ai,bi,ci,di;
-        if((int)a<0){ai = 256+(int)a; }
-        else{ai=(int)a;}
-        if((int)b<0){bi = 256+(int)b; }
-        else{bi=(int)b;}
-        if((int)c<0){ci = 256+(int)c; }
-        else{ci=(int)c;}
-        if((int)d<0){di = 256+(int)d; }
-        else{di=(int)d;}
-        return ai+bi+ci+di;
-    }
 }

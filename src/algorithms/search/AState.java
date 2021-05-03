@@ -1,5 +1,7 @@
 package algorithms.search;
 
+import java.io.Serializable;
+
 /**
  * AState is an abstract state in a searchable problem.
  * it implements Comparable(compared by cost).
@@ -7,7 +9,7 @@ package algorithms.search;
  * cost is the price wh had to pay for reaching this.
  * state is a string representation of this.
  */
-public abstract class AState implements Comparable<AState>{
+public abstract class AState implements Comparable<AState>, Serializable {
     private AState cameFrom;
     private double cost;
     private String state;

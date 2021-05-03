@@ -1,9 +1,17 @@
 package IO;
 
+import algorithms.mazeGenerators.Maze;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Stack;
 
+import static IO.byteIntOperations.byteToInt;
+
+/**
+ * this is a decorator for the input stream which adds the functionallity of decompressing mazes that were compressed
+ * via MyCompressorOutputStream.
+ */
 public class MyDecompressorInputStream extends InputStream {
     InputStream in;
 
@@ -16,6 +24,15 @@ public class MyDecompressorInputStream extends InputStream {
         return in.read();
     }
 
+    public int read(Object o) throws IOException {
+        return (this.read(((Maze)o).toByteArray()));
+    }
+
+    /**
+     * @param b the array to which we write what we read
+     * @return the amount of bytes read.
+     * @throws IOException
+     */
     public int read(byte b[]) throws IOException{
         int index=0,row,col;
         int cat = in.read();
@@ -36,11 +53,9 @@ public class MyDecompressorInputStream extends InputStream {
             }
             else{
                 Stack<Byte> tempStack;
-                if(b.length-index==mod){
-                    tempStack = numToBin(cat,1);
-                }
-                else{tempStack = numToBin(cat,0);}
-                while (!tempStack.isEmpty()){
+                tempStack = numToBin(cat);
+                while (!tempStack.isEmpty() && index<b.length){
+                    //extract the binary bytes that represent the single byte cat, from the stack.
                     b[index]=tempStack.pop();
                     index++;
                 }
@@ -50,8 +65,12 @@ public class MyDecompressorInputStream extends InputStream {
         return index;
     }
 
-    
-    private Stack<Byte> numToBin(int num,int flag){
+
+    /**
+     * @param num an integer
+     * @return a stack which contains binary digits representing the number according to the popping order.
+     */
+    private Stack<Byte> numToBin(int num){
         int bit=0, count =0;
         Stack<Byte> to_ret = new Stack<>();
         while(num>=1){
@@ -60,23 +79,11 @@ public class MyDecompressorInputStream extends InputStream {
             num =(int)num/2;
             count++;
         }
-        while(count<8 && flag!=1){
+        while(count<8){
             to_ret.push((byte) 0);
             count++;
         }
         return to_ret;
     }
 
-    private int byteToInt(byte a,byte b,byte c,byte d){
-        int ai,bi,ci,di;
-        if((int)a<0){ai = 256+(int)a; }
-        else{ai=(int)a;}
-        if((int)b<0){bi = 256+(int)b; }
-        else{bi=(int)b;}
-        if((int)c<0){ci = 256+(int)c; }
-        else{ci=(int)c;}
-        if((int)d<0){di = 256+(int)d; }
-        else{di=(int)d;}
-        return ai+bi+ci+di;
-    }
 }
