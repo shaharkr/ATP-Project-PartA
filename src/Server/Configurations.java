@@ -3,6 +3,11 @@ package Server;
 import java.io.*;
 import java.util.Properties;
 
+/**
+ * config file meant to help the the server\client decide which algorithms to use and
+ * how many threads can work simultaneously.
+ * it is a singleton to prevent more than one creation.
+ */
 public class Configurations {
     private static Configurations config_inst=null;
     private Properties p;
@@ -13,6 +18,9 @@ public class Configurations {
 
     }
 
+    /**
+     * Constructor. sets default values to the thread pool size, the generating algo and the search algo.
+     */
     private Configurations() {
         try {
             OutputStream os = new FileOutputStream("resources\\config.properties");
@@ -27,7 +35,7 @@ public class Configurations {
             e.printStackTrace();
         }
     }
-
+    //setting getters
     public int getThreadPoolSize(){
         try {
             InputStream is = new FileInputStream("resources\\config.properties");
@@ -63,7 +71,7 @@ public class Configurations {
         }
         return null;
     }
-
+    //setting setters.
     public void setThreadPoolSize(String val){
         try {
             int num = Integer.parseInt(val);
