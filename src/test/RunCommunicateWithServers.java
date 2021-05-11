@@ -49,13 +49,13 @@ public class RunCommunicateWithServers {
                             try {
                                 ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                                 toServer.flush();
-                                int[] mazeDimensions = new int[]{8,8};
+                                int[] mazeDimensions = new int[]{50,50};
                                 toServer.writeObject(mazeDimensions); //send maze dimensions to server
                                 toServer.flush();
                                 ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                                 byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                                 InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                                byte[] decompressedMaze = new byte[100000/*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
+                                byte[] decompressedMaze = new byte[10000/*CHANGE SIZE ACCORDING TO YOU MAZE SIZE*/]; //allocating byte[] for the decompressed maze -
                                 is.read(decompressedMaze);
                                 //Fill decompressedMaze 25 | P a g e with bytes
                                 Maze maze = new Maze(decompressedMaze);
@@ -83,7 +83,6 @@ public class RunCommunicateWithServers {
                                 maze.print();
                                 toServer.writeObject(maze); //send maze to server
                                 toServer.flush();
-                                Thread.sleep(5000);
                                 ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                                 Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
                                 //Print Maze Solution retrieved from the server
