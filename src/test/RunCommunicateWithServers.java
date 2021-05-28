@@ -13,30 +13,14 @@ import java.util.ArrayList;
 public class RunCommunicateWithServers {
     public static void main(String[] args) {
         //Initializing servers
-        //Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
+        Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
         Server solveSearchProblemServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
 
         solveSearchProblemServer.start();
-        //mazeGeneratingServer.start();
-
-        Thread t1 = new Thread(() ->{CommunicateWithServer_SolveSearchProblem();});
-
-        //Thread t2 = new Thread(() ->{CommunicateWithServer_SolveSearchProblem();});
-        t1.start();
-        //t2.start();
-        try {
-            t1.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //try {
-       //     t2.join();
-       // } catch (InterruptedException e) {
-        //    e.printStackTrace();
-       // }
-        //CommunicateWithServer_MazeGenerating();
-
-        //mazeGeneratingServer.stop();
+        mazeGeneratingServer.start();
+        CommunicateWithServer_MazeGenerating();
+        CommunicateWithServer_SolveSearchProblem();
+        mazeGeneratingServer.stop();
         solveSearchProblemServer.stop();
     }
 
